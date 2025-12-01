@@ -1,0 +1,19 @@
+﻿name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - sigadefa # Триггер: запускать при пуше в ветку sigadefa
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: pip install mkdocs
+      - run: pip install mkdocs-material # Устанавливаем более красивую тему
+      - run: mkdocs gh-deploy --force --remote-branch gh-pages --base-url /sigadefa/
+
