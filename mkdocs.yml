@@ -1,1 +1,20 @@
-site_name: SIGADEFA
+﻿site_name: SIGADEFA
+
+nav:
+    - Главная (Манифест): index.md
+    - Хронология SIGADEFA:
+        - Пролог: sigadefa_chronicles/prologue.md
+    - Код и Архитектура:
+        - Research/Colab: colab/README.md
+        - Фронтенд: website/README.md
+    - Ресурсы: .gitignore
+
+theme:
+  name: material
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+plugins:
+  - search
+
