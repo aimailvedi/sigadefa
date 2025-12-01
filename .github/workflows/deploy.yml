@@ -13,7 +13,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: pip install mkdocs
-      - run: pip install mkdocs-material # Устанавливаем более красивую тему
-      - run: mkdocs gh-deploy --force --remote-branch gh-pages --base-url /sigadefa/
+      # Установка MkDocs и Material Theme
+      - run: pip install mkdocs mkdocs-material
+      # Развертывание: команда без проблемной опции --base-url
+      - run: mkdocs gh-deploy --force --remote-branch gh-pages
 
