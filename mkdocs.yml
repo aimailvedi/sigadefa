@@ -7,44 +7,44 @@ theme:
   language: ru
 
 nav:
-  - Главная: docs/index.md
+  - Главная: index.md
 
   - I. Введение:
-      - Актуальность проекта: docs/introduction/relevance.md
-      - Проблема: docs/introduction/problem.md
-      - Цель проекта: docs/introduction/goal.md
+      - Актуальность проекта: introduction/relevance.md
+      - Проблема: introduction/problem.md
+      - Цель проекта: introduction/goal.md
 
   - II. Основания:
-      - Объект и предмет: docs/foundations/object_and_subject.md
-      - Гипотезы: docs/foundations/hypotheses.md
-      - Научная новизна: docs/foundations/novelty.md
+      - Объект и предмет: foundations/object_and_subject.md
+      - Гипотезы: foundations/hypotheses.md
+      - Научная новизна: foundations/novelty.md
 
   - III. Концепция:
-      - Основная идея: docs/concept/main_idea.md
-      - Мультимодальность: docs/concept/multimodality.md
-      - Гипотеза праязыка: docs/concept/pro_language.md
+      - Основная идея: concept/main_idea.md
+      - Мультимодальность: concept/multimodality.md
+      - Гипотеза праязыка: concept/pro_language.md
 
   - IV. Метод:
-      - Методология: docs/method/methodology.md
-      - Модели: docs/method/models.md
-      - Ограничения: docs/method/limitations.md
+      - Методология: method/methodology.md
+      - Модели: method/models.md
+      - Ограничения: method/limitations.md
 
   - V. Реализация:
-      - Вычислительное ядро: docs/implementation/core.md
-      - Акустика: docs/implementation/audio.md
-      - Визуализация: docs/implementation/visual.md
-      - Язык: docs/implementation/language.md
+      - Вычислительное ядро: implementation/core.md
+      - Акустика: implementation/audio.md
+      - Визуализация: implementation/visual.md
+      - Язык: implementation/language.md
 
   - VI. Проверка:
-      - Верификация: docs/validation/verification.md
-      - Эксперименты: docs/validation/experiments.md
-      - Критические точки: docs/validation/critical_points.md
+      - Верификация: validation/verification.md
+      - Эксперименты: validation/experiments.md
+      - Критические точки: validation/critical_points.md
 
   - VII. Будущее:
-      - Применения: docs/future/applications.md
-      - Этика: docs/future/ethics.md
-      - Перспективы: docs/future/perspectives.md
-      - Связь с Хрониками: docs/future/chronicles_link.md
+      - Применения: future/applications.md
+      - Этика: future/ethics.md
+      - Перспективы: future/perspectives.md
+      - Связь с Хрониками: future/chronicles_link.md
 
 markdown_extensions:
   - admonition
