@@ -1,5 +1,6 @@
 ﻿import numpy as np
 import wave
+
 from sigadefa.frequency_model import FrequencyModel
 
 
@@ -24,7 +25,6 @@ def frequencies_to_wav(
     """
     Создаёт WAV-файл из списка частот.
     Каждая частота звучит duration секунд.
-    Громкость нормализуется автоматически.
     """
     audio = []
 
