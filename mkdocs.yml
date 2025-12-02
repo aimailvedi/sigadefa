@@ -46,6 +46,12 @@ nav:
       - Перспективы: future/perspectives.md
       - Связь с Хрониками: future/chronicles_link.md
 
+  - VIII. Инструкции:
+      - Деплой и сайт: ../instructions/deployment.md
+      - Правила репозитория: ../instructions/repository_rules.md
+      - Работа с ИИ: ../instructions/workflow_with_ai.md
+      - Журнал ошибок: ../instructions/problems_and_solutions.md
+
 markdown_extensions:
   - admonition
   - footnotes
