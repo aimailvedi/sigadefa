@@ -4,11 +4,15 @@ import wave
 from sigadefa.frequency_model import FrequencyModel
 
 
+RHYTHM_MAP = {
+    "A": 0.40,
+    "T": 0.30,
+    "C": 0.25,
+    "G": 0.20,
+}
+
+
 def normalize_audio(audio: np.ndarray) -> np.ndarray:
-    """
-    Нормализует сигнал в диапазон [-1.0, 1.0]
-    и предотвращает клиппинг.
-    """
     max_val = np.max(np.abs(audio))
     if max_val == 0:
         return audio
@@ -16,22 +20,25 @@ def normalize_audio(audio: np.ndarray) -> np.ndarray:
 
 
 def frequencies_to_wav(
+    dna_sequence: str,
     frequencies,
     filename="sigadefa_first_sound.wav",
-    duration=0.5,
     sample_rate=44100,
-    amplitude=0.8
+    amplitude=0.8,
+    pause=0.05
 ):
-    """
-    Создаёт WAV-файл из списка частот.
-    Каждая частота звучит duration секунд.
-    """
     audio = []
 
-    for freq in frequencies:
+    for nucleotide, freq in zip(dna_sequence, frequencies):
+        duration = RHYTHM_MAP.get(nucleotide, 0.3)
+
         t = np.linspace(0, duration, int(sample_rate * duration), endpoint=False)
         wave_data = amplitude * np.sin(2 * np.pi * freq * t)
+
+        pause_data = np.zeros(int(sample_rate * pause))
+
         audio.extend(wave_data)
+        audio.extend(pause_data)
 
     audio = np.array(audio)
     audio = normalize_audio(audio)
@@ -51,5 +58,10 @@ if __name__ == "__main__":
     frequencies = model.sequence_to_frequencies(dna)
     print("Frequencies:", frequencies)
 
-    frequencies_to_wav(frequencies)
-    print("Файл sigadefa_first_sound.wav создан.")
+    frequencies_to_wav(
+        dna_sequence=dna,
+        frequencies=frequencies,
+        pause=0.05
+    )
+
+    print("Файл sigadefa_first_sound.wav создан с ритмом.")
