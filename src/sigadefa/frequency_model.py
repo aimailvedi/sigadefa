@@ -1,13 +1,11 @@
-﻿# src/sigadefa/frequency_model.py
-# Ядро преобразования генетического кода в частотные паттерны (Мантру).
+﻿class FrequencyModel:
+    \"\"\"
+    FrequencyModel — базовая модель перевода ДНК-последовательностей
+    в числовые значения и частоты.
 
-class FrequencyModel:
-    """
-    Класс для преобразования последовательностей ДНК в числовые частотные массивы.
-    """
+    A, T, C, G → значения → частоты (Гц)
+    \"\"\"
 
-    # Определяем пифагорейские соотношения (пока в виде простых чисел)
-    # A=Ля (6), T=Соль (5), C=Фа (4), G=Ми (3) - пример:
     NUCLEOTIDE_MAP = {
         'A': 6,
         'T': 5,
@@ -15,28 +13,43 @@ class FrequencyModel:
         'G': 3,
     }
 
-    def __init__(self, base_frequency=440.0):
-        """Инициализация с базовой частотой (например, Ля 440 Гц)."""
+    def __init__(self, base_frequency: float = 440.0):
         self.base_frequency = base_frequency
 
     def map_sequence_to_values(self, sequence: str) -> list:
-        """Преобразует последовательность ДНК в список числовых значений согласно NUCLEOTIDE_MAP."""
-        sequence = sequence.upper().replace(' ', '')
-        return [self.NUCLEOTIDE_MAP.get(n, 0) for n in sequence]
+        \"\"\"
+        Преобразует строку ДНК (ATCG...) в список числовых значений.
+        \"\"\"
+        values = []
+
+        for nucleotide in sequence.upper():
+            if nucleotide not in self.NUCLEOTIDE_MAP:
+                raise ValueError(f\"Недопустимый нуклеотид: {nucleotide}\")
+            values.append(self.NUCLEOTIDE_MAP[nucleotide])
+
+        return values
 
     def values_to_frequencies(self, values: list) -> list:
-        """Преобразует числовые значения в частоты (пока заглушка)."""
-        # Здесь будет сложная логика, использующая self.base_frequency и интервалы.
-        return [v * self.base_frequency / 100 for v in values]
+        \"\"\"
+        Преобразует список числовых значений в частоты на основе base_frequency.
+        \"\"\"
+        frequencies = []
+
+        for value in values:
+            freq = self.base_frequency * value
+            frequencies.append(freq)
+
+        return frequencies
 
 
-# Пример использования (для тестирования):
-if __name__ == '__main__':
+# === БАЗОВЫЙ ТЕСТ (можно запускать напрямую) ===
+
+if __name__ == \"__main__\":
     model = FrequencyModel()
-    dna_sample = "AGTCAG"
-    
-    values = model.map_sequence_to_values(dna_sample)
-    print(f"Values: {values}")
-    
-    frequencies = model.values_to_frequencies(values)
-    print(f"Frequencies: {frequencies}")
+    dna = \"ATCG\"
+    values = model.map_sequence_to_values(dna)
+    freqs = model.values_to_frequencies(values)
+
+    print(\"DNA:\", dna)
+    print(\"Values:\", values)
+    print(\"Frequencies:\", freqs)
