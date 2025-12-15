@@ -20,6 +20,7 @@
 
 ### V. [Реализация](implementation/core.md)
 Код, звук, визуализация и язык.
+  - [Промт Codex для vision-voice ассистента](implementation/rust_vision_voice_prompt.md)
 
 ### VI. [Проверка](validation/verification.md)
 Верификация, эксперименты, критические точки.
