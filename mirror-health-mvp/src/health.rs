@@ -25,13 +25,19 @@ pub async fn run_health_checks(config: &Config, screenshot_ok: bool) -> HealthSt
         detail: "UI running".to_string(),
     });
 
+    let screenshot_capable = if screenshot_ok {
+        true
+    } else {
+        check_screenshot_capability().await
+    };
+
     components.push(HealthComponent {
         name: "Screenshot".to_string(),
-        ok: screenshot_ok,
-        detail: if screenshot_ok {
-            "Last screenshot succeeded".to_string()
+        ok: screenshot_capable,
+        detail: if screenshot_capable {
+            "Screenshot capture available".to_string()
         } else {
-            "No successful screenshot yet".to_string()
+            "Screenshot capture may not work".to_string()
         },
     });
 
@@ -111,4 +117,21 @@ fn check_disk_space(min_free_gb: u64) -> bool {
         }
     }
     false
+}
+
+async fn check_screenshot_capability() -> bool {
+    #[cfg(target_os = "windows")]
+    {
+        use winapi::um::winuser::{GetDesktopWindow, IsWindowVisible};
+
+        unsafe {
+            let desktop = GetDesktopWindow();
+            return IsWindowVisible(desktop) != 0;
+        }
+    }
+
+    #[cfg(not(target_os = "windows"))]
+    {
+        true
+    }
 }

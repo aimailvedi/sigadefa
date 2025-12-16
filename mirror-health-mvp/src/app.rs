@@ -121,7 +121,19 @@ impl AppState {
         app
     }
 
-    pub fn update_ui(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    pub fn render_ui(&mut self, ctx: &egui::Context) {
+        self.render_top_panel(ctx);
+        self.render_left_panel(ctx);
+        self.render_chat(ctx);
+        self.render_input(ctx);
+        self.render_status_bar(ctx);
+
+        if self.show_load_panel {
+            self.render_session_window(ctx);
+        }
+    }
+
+    fn handle_events(&mut self, ctx: &egui::Context) {
         while let Ok(event) = self.receiver.try_recv() {
             match event {
                 UiEvent::Chat(msg) => {
@@ -139,11 +151,6 @@ impl AppState {
                 }
             }
         }
-        self.render_top_panel(ctx);
-        self.render_left_panel(ctx);
-        self.render_chat(ctx);
-        self.render_input(ctx);
-        self.render_status_bar(ctx);
     }
 
     fn render_top_panel(&mut self, ctx: &egui::Context) {
@@ -231,29 +238,6 @@ impl AppState {
                         self.last_action = msg;
                         self.start_health_check(true);
                     }
-                }
-            }
-
-            if self.show_load_panel {
-                ui.separator();
-                ui.label("Recent Sessions:");
-                for session in &self.available_sessions {
-                    ui.horizontal(|ui| {
-                        ui.label(&session.display_name);
-                        if ui.button("Load").clicked() {
-                            if let Ok(data) = load_session(&session.path) {
-                                self.messages = data.messages;
-                                self.mode = data.mode;
-                                self.last_action = format!("Loaded {}", session.display_name);
-                            } else {
-                                let msg = "Failed to load session".to_string();
-                                self.messages.push(Message::new(Role::System, msg.clone()));
-                                self.last_error = Some(msg.clone());
-                                self.last_action = msg;
-                            }
-                            self.show_load_panel = false;
-                        }
-                    });
                 }
             }
         });
@@ -396,10 +380,58 @@ impl AppState {
             Role::System => "SYSTEM",
         }
     }
+
+    fn render_session_window(&mut self, ctx: &egui::Context) {
+        egui::Window::new("Load Session")
+            .collapsible(false)
+            .resizable(true)
+            .show(ctx, |ui| {
+                if self.available_sessions.is_empty() {
+                    ui.label("No saved sessions found");
+                } else {
+                    for session in &self.available_sessions {
+                        ui.horizontal(|ui| {
+                            if ui.button("Load").clicked() {
+                                if let Ok(data) = load_session(&session.path) {
+                                    self.messages = data.messages;
+                                    self.mode = data.mode;
+                                    self.last_action = format!("Loaded {}", session.display_name);
+                                } else {
+                                    let msg = "Failed to load session".to_string();
+                                    self.messages.push(Message::new(Role::System, msg.clone()));
+                                    self.last_error = Some(msg.clone());
+                                    self.last_action = msg;
+                                }
+                                self.show_load_panel = false;
+                            }
+
+                            ui.vertical(|ui| {
+                                ui.label(&session.display_name);
+                                ui.label(format!(
+                                    "Messages: {} | Mode: {}",
+                                    session.messages.len(),
+                                    session.mode.label()
+                                ));
+                                ui.label(format!(
+                                    "Saved: {}",
+                                    session.timestamp.format("%Y-%m-%d %H:%M:%S")
+                                ));
+                            });
+                        });
+                        ui.separator();
+                    }
+                }
+
+                if ui.button("Close").clicked() {
+                    self.show_load_panel = false;
+                }
+            });
+    }
 }
 
 impl eframe::App for AppState {
-    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
-        self.update_ui(ctx, frame);
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        self.handle_events(ctx);
+        self.render_ui(ctx);
     }
 }

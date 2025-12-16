@@ -2374,10 +2374,11 @@ dependencies = [
  "serde",
  "serde_json",
  "sysinfo",
- "thiserror 1.0.69",
+ "thiserror 2.0.17",
  "tokio",
  "toml",
  "urlencoding",
+ "winapi",
 ]
 
 [[package]]

@@ -25,6 +25,8 @@ min_free_disk_gb = 5
 - `min_free_disk_gb` controls the health check threshold.
 
 ## Running
+- On Windows you can double-click `start.bat` for a guided launch.
+- Or run manually:
 ```
 cargo run
 ```
@@ -44,3 +46,4 @@ cargo run
 - Screenshot capture saved to `%USERPROFILE%\\.mirror-health-mvp\\screenshots`
 - Health checks for app, screenshot success, Ollama reachability, OpenAI key presence, and disk space
 - Status bar showing mode and last action/error
+- Load dialog rendered as a modal window listing the 10 most recent sessions
